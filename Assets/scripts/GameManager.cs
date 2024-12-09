@@ -1,74 +1,86 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using TMPro; // Para el uso de TextMeshPro (UI de texto)
+using UnityEngine; // Para las funcionalidades principales de Unity
+using UnityEngine.SocialPlatforms.Impl; // No parece ser necesario, se puede eliminar si no usas redes sociales
+using UnityEngine.UI; // Para el uso de UI (interfaz de usuario)
+using UnityEngine.SceneManagement; // Para la gestión de escenas (cargar nuevas escenas)
 
 public class GameManager : MonoBehaviour
 {
+    // Instancia estática de este script para acceso global
     public static GameManager Instance;
+    
+    // Variable para controlar si el juego ha terminado
     bool gameOver = false;
+    
+    // Referencia al marcador de la UI (el texto que muestra la puntuación)
     public Text marcador;
+    
+    // Variable para almacenar la puntuación
     private int puntuacion = 0;
+    
+    // Panel de fin de juego que aparece cuando se termina
     public GameObject panel;
 
-
-
+    // Este método se llama cuando el script se carga
     private void Awake()
     {
+        // Establece la instancia de GameManager para acceder globalmente a él
         Instance = this;
     }
 
-    // Start is called before the first frame update
+    // Este método se llama al inicio del juego
     void Start()
     {
-
+        // Aquí puedes inicializar cualquier cosa si es necesario
     }
 
-    // Update is called once per frame
+    // Este método se llama en cada frame
     void Update()
     {
-
+        // Aquí puedes añadir lógica que se ejecuta constantemente durante el juego
     }
 
+    // Método que se llama cuando el juego termina
     public void GameOver()
     {
-        gameOver = true;
-        //busca el obstacle spawner, de sus componentes, usa el script, de la clase, usa el m�todo p�blico stop
+        gameOver = true; // Marca el estado del juego como "terminado"
+        
+        // Busca el objeto "ObstacleSpawner" y llama al método StopSpawning de su script
         GameObject.Find("ObstacleSpawner").GetComponent<ObstacleSpawner>().StopSpawning();
-        marcador.text = ""; // Vacía el marcador
+        
+        // Vacía el marcador de texto (lo deja en blanco)
+        marcador.text = ""; 
+        
+        // Activa el panel de fin de juego (por ejemplo, para mostrar la puntuación final)
         panel.SetActive(true);
-
-
-
     }
 
-
+    // Método que se llama para incrementar la puntuación cuando el jugador obtiene puntos
     public void IncrementScore()
     {
+        // Solo permite incrementar la puntuación si el juego no ha terminado
         if (!gameOver)
         {
-            puntuacion++; // Incrementar puntuación
-            print(puntuacion);
-            marcador.text = puntuacion.ToString(); // Actualiza el marcador con la nueva puntuación
-            if (puntuacion % 5 == 0) {
-                // Si la puntuación es un multiplo de 5, decirle al ObstacleSpawner de incrementar la velocidad
-                GameObject.Find("ObstacleSpawner").GetComponent<ObstacleSpawner>().IncrementarVelocidad();
-            }
+            puntuacion++; // Incrementa la puntuación en 1
+            print(puntuacion); // Muestra la puntuación en la consola para depuración
+            marcador.text = puntuacion.ToString(); // Actualiza el texto del marcador con la nueva puntuación
+            
+            // Si la puntuación es múltiplo de 5, incrementa la velocidad de los obstáculos
+            GameObject.Find("ObstacleSpawner").GetComponent<ObstacleSpawner>().IncrementarVelocidad();
         }
     }
 
+    // Método para reiniciar el juego (carga la escena del juego de nuevo)
     public void Restart()
     {
-        // Recarga el juego
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Game"); // Recarga la escena "Game"
     }
 
+    // Método para volver al menú principal (carga la escena del menú)
     public void Menu()
     {
-        // Carga el menu
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu"); // Carga la escena "Menu"
     }
 }

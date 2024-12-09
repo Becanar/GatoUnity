@@ -22,7 +22,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     public void IncrementarVelocidad() {
         StopSpawning(); // Para de spawnear
-        velocidadCreaccion = Mathf.Max(0.1f, velocidadCreaccion - 0.5f); // Incrementar la velocidad de los obstaculos cada 5 veces por 0.5
+       velocidadCreaccion = Mathf.Max(0.1f, velocidadCreaccion - 0.1f);
         StartSpawning(); // Reinicia el spawneo
     }
 
